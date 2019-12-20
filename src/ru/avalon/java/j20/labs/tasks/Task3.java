@@ -1,12 +1,13 @@
 package ru.avalon.java.j20.labs.tasks;
 
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import ru.avalon.java.j20.labs.Task;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-
-/**
+/*
  * Задание №3
  *
  * <p>Тема: "Потоковый ввод-вывод. Чтение и запись данных с
@@ -19,6 +20,7 @@ public class Task3 implements Task {
      */
     @Override
     public void run() throws IOException {
+        System.out.println("Выполняется задача №3");
         File input = new File("assets/countries.txt");
         File output = new File("countries_buffered_mode_output.txt");
         Collection<String> lines = read(input);
@@ -41,7 +43,7 @@ public class Task3 implements Task {
          */
     }
 
-    /**
+    /*
      * Выполняет чтение указанного файла в коллекцию строк.
      *
      * <p>Каждый элемент коллекции представляет собой
@@ -52,10 +54,19 @@ public class Task3 implements Task {
      * @throws IOException в случае ошибок ввода-вывода.
      */
     private Collection<String> read(File file) throws IOException {
-        throw new UnsupportedOperationException("Not implement yet!");
+        try (InputStream istream = new FileInputStream(file);
+             Reader reader = new InputStreamReader(istream); 
+            BufferedReader inputReader = new BufferedReader(reader)) {
+            Collection<String> buffer = new LinkedList<>();
+            String line;
+            while ((line = inputReader.readLine()) != null) {
+                buffer.add(line);
+            }
+            return new ArrayList<>(buffer);
+        }
     }
 
-    /**
+    /*
      * Выполняет запись коллекции строковых элементов в файл.
      *
      * <p>Каждый элемент коллекции должен быть записан в
@@ -66,6 +77,11 @@ public class Task3 implements Task {
      * @throws IOException в случае ошибок ввода-вывода.
      */
     private void write(File file, Collection<String> collection) throws IOException {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        try (OutputStream ostream = new FileOutputStream(file);
+             PrintWriter writer = new PrintWriter(ostream); ) {
+            for (String line : collection) {
+                writer.println(line);
+            }
+        }
     }
 }

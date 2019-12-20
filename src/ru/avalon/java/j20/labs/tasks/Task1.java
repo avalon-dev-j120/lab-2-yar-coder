@@ -2,10 +2,10 @@ package ru.avalon.java.j20.labs.tasks;
 
 import ru.avalon.java.j20.labs.Task;
 
-import java.io.File;
+import java.io.*;
 import java.io.IOException;
 
-/**
+/*
  * Задание №1
  *
  * <p>Тема: "Потоковый ввод-вывод. Чтение и запись данных
@@ -18,11 +18,14 @@ public class Task1 implements Task {
      */
     @Override
     public void run() throws IOException {
+        System.out.println("Выполняется задача №1");
         File input = new File("assets/countries.txt");
         File output = new File("countries_binary_mode_output.txt");
         String text = read(input);
         write(output, text);
 
+        System.out.println(text);
+        
         /*
          * TODO(Студент): Выполнить задание №1
          *
@@ -43,7 +46,7 @@ public class Task1 implements Task {
          */
     }
 
-    /**
+    /*
      * Выполняет чтение указанного файла в двоичном режиме.
      *
      * <p>Весь текст файла возвращается в виде одного
@@ -54,10 +57,29 @@ public class Task1 implements Task {
      * @throws IOException в случае ошибок ввода-вывода.
      */
     private String read(File file) throws IOException {
-        throw new UnsupportedOperationException("Not implement yet!");
+        InputStream istream = null;
+        ByteArrayOutputStream ostream = null;
+        try {
+            istream = new FileInputStream(file);
+            ostream = new ByteArrayOutputStream(16);
+            byte[] buffer = new byte[16];
+            int len;
+            while ((len = istream.read(buffer)) != -1) {
+                ostream.write(buffer, 0, len);
+            }
+            byte[] result = ostream.toByteArray();
+            return new String(result);
+        } finally {
+            if (istream !=null) {
+                istream.close();
+            }
+             if (ostream !=null) {
+                ostream.close();
+            }
+        }
     }
 
-    /**
+    /*
      * Выполняет запись текстоых данных в файл в двоичном
      * режиме.
      *
@@ -65,7 +87,12 @@ public class Task1 implements Task {
      * @param text текст
      * @throws IOException в случае ошибок ввода-вывода.
      */
+    
     private void write(File file, String text) throws IOException {
-        throw new UnsupportedOperationException("Not implemented yet!");
-    }
+        OutputStream ostream = new FileOutputStream(file);
+        byte[] byteArray = text.getBytes();
+        ostream.write(byteArray);
+        ostream.close();
+        
+    } 
 }
