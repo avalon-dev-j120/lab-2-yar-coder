@@ -2,7 +2,7 @@ package ru.avalon.java.j20.labs;
 
 import ru.avalon.java.j20.labs.tasks.*;
 
-/**
+/*
  * Лабораторная работа №2
  *
  * по курсу: "DEV-J20. Программирование на платформе Java.
@@ -10,7 +10,7 @@ import ru.avalon.java.j20.labs.tasks.*;
  */
 public class Application {
 
-    /**
+    /*
      * Задачи, которые следует выполнить в рамках
      * лабораторной работы.
      */
@@ -23,7 +23,7 @@ public class Application {
             new Task6()
     };
 
-    /**
+    /*
      * Точка входа в приложение.
      *
      * @param args аргументы командной строки
@@ -37,6 +37,9 @@ public class Application {
          * порядок и/или закомментировать любой из элементов
          * массива.
          */
-        for (Task task : tasks) task.run();
+        
+        
+       for (Task task : tasks) task.run();
+        
     }
 }

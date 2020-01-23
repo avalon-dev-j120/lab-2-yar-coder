@@ -1,11 +1,12 @@
 package ru.avalon.java.j20.labs.tasks;
 
+import java.io.File;
+import java.io.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import ru.avalon.java.j20.labs.Task;
 
-import java.io.File;
-import java.io.IOException;
-
-/**
+/*
  * Задание №2
  *
  * <p>Тема: "Потоковый ввод-вывод. Чтение и запись данных
@@ -18,11 +19,13 @@ public class Task2 implements Task {
      */
     @Override
     public void run() throws IOException {
+        System.out.println("Выполняется задача №2");
         File input = new File("assets/countries.txt");
         File output = new File("countries_text_mode_output.txt");
         String text = read(input);
         write(output, text);
 
+        System.out.println(text);
         /*
          * TODO(Студент): Выполнить задание №2
          *
@@ -43,7 +46,7 @@ public class Task2 implements Task {
          */
     }
 
-    /**
+    /*
      * Выполняет чтение указанного файла в текстовом режиме.
      *
      * <p>Весь текст файла возвращается в виде одного
@@ -54,10 +57,19 @@ public class Task2 implements Task {
      * @throws IOException в случае ошибок ввода-вывода.
      */
     private String read(File file) throws IOException {
-        throw new UnsupportedOperationException("Not implement yet!");
+        try (InputStream istream = new FileInputStream(file);
+             Reader reader = new InputStreamReader(istream)) {
+            String text = "";
+            char[] buffer = new char[16];
+            int len;
+            while ((len = reader.read(buffer)) != -1) {
+                text = text + new String(buffer, 0, len);
+            }
+            return text;
+        }
     }
 
-    /**
+    /*
      * Выполняет запись текстоых данных в файл в текстовом
      * режиме.
      *
@@ -66,6 +78,9 @@ public class Task2 implements Task {
      * @throws IOException в случае ошибок ввода-вывода.
      */
     private void write(File file, String text) throws IOException {
-        throw new UnsupportedOperationException("Not implemented yet!");
+        OutputStream ostream = new FileOutputStream(file);
+        Writer writer = new OutputStreamWriter(ostream);
+        writer.write(text);
+        writer.flush();
     }
 }
